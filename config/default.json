@@ -1,4 +1,11 @@
 {
 	"name": "Yonsei RC Program Manager",
-	"dbInfo": {}
+	"dbInfo": {
+		"host": "34.84.231.144",
+		"user": "root",
+		"password": "",
+		"database": "yonsei_rc",
+		"dateStrings": true
+	},
+	"jwtKey": "secret"
 }

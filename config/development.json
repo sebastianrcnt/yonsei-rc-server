@@ -1,7 +1,7 @@
 {
 	"name": "Yonsei RC Program Manager - Development",
 	"dbInfo": {
-		"host": "localhost",
+		"host": "34.84.231.144",
 		"user": "root",
 		"password": "",
 		"database": "yonsei_rc",

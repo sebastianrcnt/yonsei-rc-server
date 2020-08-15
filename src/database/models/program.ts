@@ -1,6 +1,7 @@
 import Joi from "joi";
 
 export default interface Program {
+	program_id?: number;
 	name: string;
 	description: string;
 }

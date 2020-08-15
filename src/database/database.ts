@@ -1,4 +1,4 @@
-import mysql, { ConnectionConfig } from "mysql";
+import mysql, { ConnectionConfig, OkPacket } from "mysql";
 import User from "./models/user";
 import Program from "./models/program";
 import config from "config";
@@ -10,6 +10,7 @@ if (dbInfo.password === "") {
 	console.error("FATAL: yonsei_DBPWD doesn't defined");
 	process.exit(1);
 }
+console.log(dbInfo.password);
 
 const connection = mysql.createConnection(dbInfo);
 connection.connect((err) =>
@@ -19,7 +20,7 @@ connection.connect((err) =>
 );
 
 function createProgram(program: Program) {
-	return new Promise<Program>((resolve, reject) => {
+	return new Promise<number>((resolve, reject) => {
 		connection.query(
 			`
     INSERT INTO programs
@@ -27,9 +28,9 @@ function createProgram(program: Program) {
       DEFAULT,
       '${program.name}',
       '${program.description}'
-    )
+		);
     `,
-			(err, data) => (err ? reject(err) : resolve(data[0]))
+			(err, data) => (err ? reject(err) : resolve(data.insertID))
 		);
 	});
 }
@@ -84,6 +85,30 @@ function deleteProgram(id: number) {
 	});
 }
 
+function createUser(user: User) {
+	return new Promise<number>((resolve, reject) => {
+		connection.query(
+			`
+		INSERT INTO users
+		VALUES (
+			DEFAULT,
+			'${user.student_id}',
+			'${user.password}',
+			'${user.first_name}',
+			'${user.last_name}',
+			${user.role_id}
+		);
+		`,
+			(err, result: OkPacket) =>
+				err
+					? reject(err)
+					: result.affectedRows === 0
+					? reject(new Error("insert doesn't work"))
+					: resolve(result.insertId)
+		);
+	});
+}
+
 function readUsers() {
 	return new Promise<User[]>((resolve, reject) => {
 		connection.query(
@@ -101,7 +126,21 @@ function readUser(id: number) {
 		connection.query(
 			`
     SELECT *
-    FROM users
+		FROM users
+		WHERE user_id = ${id}
+    `,
+			(err, data) => (err ? reject(err) : resolve(data[0]))
+		);
+	});
+}
+
+function readUserByStudentID(student_id: any) {
+	return new Promise<User>((resolve, reject) => {
+		connection.query(
+			`
+    SELECT *
+		FROM users
+		WHERE student_id = ${student_id}
     `,
 			(err, data) => (err ? reject(err) : resolve(data[0]))
 		);
@@ -115,6 +154,8 @@ export default {
 	readProgram,
 	updateProgram,
 	deleteProgram,
+	createUser,
 	readUsers,
-	readUser
+	readUser,
+	readUserByStudentID
 };

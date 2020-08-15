@@ -1,6 +1,7 @@
 import Joi from "joi";
 
 export default interface User {
+	user_id?: number;
 	student_id: string;
 	password: string;
 	first_name: string;
