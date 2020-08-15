@@ -1,0 +1,10 @@
+{
+	"name": "Yonsei RC Program Manager - Development",
+	"dbInfo": {
+		"host": "localhost",
+		"user": "root",
+		"password": "",
+		"database": "yonsei_rc",
+		"dateStrings": true
+	}
+}

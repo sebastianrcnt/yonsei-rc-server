@@ -1,6 +1,6 @@
 import { Router } from "express";
 import DB from "../database/database";
-import Program, { validateProgram } from "../database/program";
+import Program, { validateProgram } from "../database/models/program";
 
 const router = Router();
 

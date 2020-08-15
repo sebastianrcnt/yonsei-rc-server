@@ -1,5 +1,8 @@
 import http from "http";
 import app from "./app";
+import config from "config";
+
+console.log(config.get("name"));
 
 const PORT = process.env.PORT || "3900";
 app.set("port", PORT);

@@ -1,14 +1,15 @@
 import mysql, { ConnectionConfig } from "mysql";
-import User from "./user";
-import Program from "./program";
+import User from "./models/user";
+import Program from "./models/program";
+import config from "config";
 
-const dbInfo: ConnectionConfig = {
-	host: "localhost",
-	user: "root",
-	password: "8888",
-	database: "yonsei_rc",
-	dateStrings: true
-};
+const dbInfo: ConnectionConfig = config.get("dbInfo");
+
+if (dbInfo.password === "") {
+	console.log(dbInfo);
+	console.error("FATAL: yonsei_DBPWD doesn't defined");
+	process.exit(1);
+}
 
 const connection = mysql.createConnection(dbInfo);
 connection.connect((err) =>
