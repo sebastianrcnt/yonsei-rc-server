@@ -6,7 +6,6 @@ import config from "config";
 const dbInfo: ConnectionConfig = config.get("dbInfo");
 
 if (dbInfo.password === "") {
-	console.log(dbInfo);
 	console.error("FATAL: yonsei_DBPWD doesn't defined");
 	process.exit(1);
 }
