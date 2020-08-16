@@ -10,41 +10,25 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-	try {
-		const result = await DB.readProgram(parseInt(req.params.id));
-		result ? res.send(result) : res.sendStatus(404);
-	} catch (error) {
-		res.status(500).send("Database Error");
-	}
+	const result = await DB.readProgram(parseInt(req.params.id));
+	result ? res.send(result) : res.sendStatus(404);
 });
 
 router.post("/", async (req, res) => {
-	try {
-		const result = validateProgram(req.body);
-		if (result.errors) return res.status(400).send(result.errors);
-		res.send(await DB.createProgram(req.body));
-	} catch (error) {
-		console.error(error);
-	}
+	const result = validateProgram(req.body);
+	if (result.errors) return res.status(400).send(result.errors);
+	res.send(await DB.createProgram(req.body));
 });
 
 router.put("/:id", async (req, res) => {
-	try {
-		const result = validateProgram(req.body);
-		if (result.errors) return res.status(400).send(result.errors);
-		res.send(await DB.updateProgram(parseInt(req.params.id), req.body));
-	} catch (error) {
-		console.error(error);
-	}
+	const result = validateProgram(req.body);
+	if (result.errors) return res.status(400).send(result.errors);
+	res.send(await DB.updateProgram(parseInt(req.params.id), req.body));
 });
 
 router.delete("/:id", async (req, res) => {
-	try {
-		await DB.deleteProgram(parseInt(req.params.id));
-		res.sendStatus(204);
-	} catch (error) {
-		console.error(error);
-	}
+	await DB.deleteProgram(parseInt(req.params.id));
+	res.sendStatus(204);
 });
 
 export default router;

@@ -1,15 +1,14 @@
 import jwt from "jsonwebtoken";
 import config from "config";
+import User from "../database/models/user";
 
 const key: string = config.get("jwtKey");
 
-console.log("jwtKey is ", key);
-
-export default function issueJWT(id: number) {
+export default function issueJWT(user: User) {
 	const expiresIn = "1d";
 
 	const payload = {
-		sub: id,
+		sub: user.user_id,
 		iat: Date.now()
 	};
 

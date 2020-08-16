@@ -86,7 +86,7 @@ function deleteProgram(id: number) {
 }
 
 function createUser(user: User) {
-	return new Promise<number>((resolve, reject) => {
+	return new Promise<User>((resolve, reject) => {
 		connection.query(
 			`
 		INSERT INTO users
@@ -104,7 +104,7 @@ function createUser(user: User) {
 					? reject(err)
 					: result.affectedRows === 0
 					? reject(new Error("insert doesn't work"))
-					: resolve(result.insertId)
+					: resolve({ user_id: result.insertId, ...user })
 		);
 	});
 }
